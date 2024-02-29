@@ -1,5 +1,6 @@
-##Mojo🔥 Language Syntax Highlighting for Vim
+## Mojo:fire: Language Syntax Highlighting for Vim
 
+![alt text](syntax-example.png "Highlight Example")
 
 How to install
 --------------
