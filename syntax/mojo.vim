@@ -1,53 +1,9 @@
-" Vim syntax file
-" include python syntax
-runtime syntax/python.vim
-" Language:	Mojo
-" Maintainer:	Mahmoud Abduljawad <me@mahmoudajawad.com>
-" Last Change:	2023 Sep 09
-" Credits:	Mahmoud Abduljawad <me@mahmoudajawad.com>
-"         	Neil Schemenauer <nas@python.ca>
-"		Dmitry Vasiliev
-"
-"		This is based on Vim Python highlighting
-"
-"		- introduced highlighting of doctests
-"		- updated keywords, built-ins, and exceptions
-"		- corrected regular expressions for
-"
-"		  * functions
-"		  * decorators
-"		  * strings
-"		  * escapes
-"		  * numbers
-"		  * space error
-"
-"		- corrected synchronization
-"		- more highlighting is ON by default, except
-"		- space error highlighting is OFF by default
-"
-" Optional highlighting can be controlled using these variables.
-"
-"   let mojo_no_builtin_highlight = 1
-"   let mojo_no_doctest_code_highlight = 1
-"   let mojo_no_doctest_highlight = 1
-"   let mojo_no_exception_highlight = 1
-"   let mojo_no_number_highlight = 1
-"   let mojo_space_error_highlight = 1
-"
-" All the options above can be switched on together.
-"
-"   let mojo_highlight_all = 1
-"
-" The use of Python 2 compatible syntax highlighting can be enforced.
-" The straddling code (Python 2 and 3 compatible), up to Python 3.5,
-" will be also supported.
-"
-"   let mojo_use_python2_syntax = 1
-"
-" This option will exclude all modern Python 3.6 or higher features.
-"
+" Mojo syntax file for Vim
 
-" quit when a syntax file was already loaded.
+" Include python syntax
+runtime syntax/python.vim
+
+" Quit when a syntax file was already loaded.
 if exists("b:current_syntax")
   finish
 endif
@@ -56,29 +12,6 @@ endif
 " Original setting will be restored.
 let s:cpo_save = &cpo
 set cpo&vim
-
-if exists("mojo_no_doctest_highlight")
-  let mojo_no_doctest_code_highlight = 1
-endif
-
-if exists("mojo_highlight_all")
-  if exists("mojo_no_builtin_highlight")
-    unlet mojo_no_builtin_highlight
-  endif
-  if exists("mojo_no_doctest_code_highlight")
-    unlet mojo_no_doctest_code_highlight
-  endif
-  if exists("mojo_no_doctest_highlight")
-    unlet mojo_no_doctest_highlight
-  endif
-  if exists("mojo_no_exception_highlight")
-    unlet mojo_no_exception_highlight
-  endif
-  if exists("mojo_no_number_highlight")
-    unlet mojo_no_number_highlight
-  endif
-  let mojo_space_error_highlight = 1
-endif
 
 " These keywords are based on Python syntax highlight, and adds to it struct,
 " fn, alias, var, let
@@ -169,107 +102,100 @@ syn match   mojoEscape	"\\$"
 "
 " and so on, as specified in the 'Python Language Reference'.
 " https://docs.python.org/reference/lexical_analysis.html#numeric-literals
-if !exists("mojo_no_number_highlight")
-  " numbers (including complex)
-  syn match   mojoNumber	"\<0[oO]\%(_\=\o\)\+\>"
-  syn match   mojoNumber	"\<0[xX]\%(_\=\x\)\+\>"
-  syn match   mojoNumber	"\<0[bB]\%(_\=[01]\)\+\>"
-  syn match   mojoNumber	"\<\%([1-9]\%(_\=\d\)*\|0\+\%(_\=0\)*\)\>"
-  syn match   mojoNumber	"\<\d\%(_\=\d\)*[jJ]\>"
-  syn match   mojoNumber	"\<\d\%(_\=\d\)*[eE][+-]\=\d\%(_\=\d\)*[jJ]\=\>"
-  syn match   mojoNumber
-        \ "\<\d\%(_\=\d\)*\.\%([eE][+-]\=\d\%(_\=\d\)*\)\=[jJ]\=\%(\W\|$\)\@="
-  syn match   mojoNumber
-        \ "\%(^\|\W\)\zs\%(\d\%(_\=\d\)*\)\=\.\d\%(_\=\d\)*\%([eE][+-]\=\d\%(_\=\d\)*\)\=[jJ]\=\>"
-endif
+" numbers (including complex)
+syn match   mojoNumber	"\<0[oO]\%(_\=\o\)\+\>"
+syn match   mojoNumber	"\<0[xX]\%(_\=\x\)\+\>"
+syn match   mojoNumber	"\<0[bB]\%(_\=[01]\)\+\>"
+syn match   mojoNumber	"\<\%([1-9]\%(_\=\d\)*\|0\+\%(_\=0\)*\)\>"
+syn match   mojoNumber	"\<\d\%(_\=\d\)*[jJ]\>"
+syn match   mojoNumber	"\<\d\%(_\=\d\)*[eE][+-]\=\d\%(_\=\d\)*[jJ]\=\>"
+syn match   mojoNumber
+      \ "\<\d\%(_\=\d\)*\.\%([eE][+-]\=\d\%(_\=\d\)*\)\=[jJ]\=\%(\W\|$\)\@="
+syn match   mojoNumber
+      \ "\%(^\|\W\)\zs\%(\d\%(_\=\d\)*\)\=\.\d\%(_\=\d\)*\%([eE][+-]\=\d\%(_\=\d\)*\)\=[jJ]\=\>"
 
 " The built-ins are added in the same order of appearance in Mojo stdlib docs
 " https://docs.modular.com/mojo/lib.html
 "
-if !exists("mojo_no_builtin_highlight")
-  " Built-in functions
-  syn keyword mojoBuiltin	slice constrained debug_assert put_new_line print
-  syn keyword mojoBuiltin	print_no_newline len range rebind element_type 
-  syn keyword mojoBuiltin	ord chr atol isdigit index address string
-  " Built-in types
-  syn keyword mojoType		Byte ListLiteral CoroutineContext Coroutine DType
-  syn keyword mojoType		dtype type invalid bool int8 si8 unit8 ui8 int16 
-  syn keyword mojoType		si16 unit16 ui16 int32 si32 uint32 ui32 int64 
-  syn keyword mojoType		si64 uint64 ui64 bfloat16 bf16 float16 f16 float32
-  syn keyword mojoType		f32 float64 f64 Error FloatLiteral Int Attr SIMD 
-  syn keyword mojoType		Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64
-  syn keyword mojoType		Float16 Float32 Float64 element_type _65x13_type
-  syn keyword mojoType		String StringLiteral StringRef Tuple AnyType
-  syn keyword mojoType		NoneType None Lifetime
-  " avoid highlighting attributes as builtins
-  syn match   mojoAttribute	/\.\h\w*/hs=s+1
-	\ contains=ALLBUT,mojoBuiltin,mojoFunction,mojoAsync
-	\ transparent
-endif
+" Built-in functions
+syn keyword mojoBuiltin	slice constrained debug_assert put_new_line print
+syn keyword mojoBuiltin	print_no_newline len range rebind element_type 
+syn keyword mojoBuiltin	ord chr atol isdigit index address string
+
+" Built-in types
+syn keyword mojoType		Byte ListLiteral CoroutineContext Coroutine DType
+syn keyword mojoType		dtype type invalid bool int8 si8 unit8 ui8 int16 
+syn keyword mojoType		si16 unit16 ui16 int32 si32 uint32 ui32 int64 
+syn keyword mojoType		si64 uint64 ui64 bfloat16 bf16 float16 f16 float32
+syn keyword mojoType		f32 float64 f64 Error FloatLiteral Int Attr SIMD 
+syn keyword mojoType		Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64
+syn keyword mojoType		Float16 Float32 Float64 element_type _65x13_type
+syn keyword mojoType		String StringLiteral StringRef Tuple AnyType
+syn keyword mojoType		NoneType None Lifetime
+
+" avoid highlighting attributes as builtins
+syn match   mojoAttribute	/\.\h\w*/hs=s+1
+  \ contains=ALLBUT,mojoBuiltin,mojoFunction,mojoAsync
+  \ transparent
 
 " From the 'Python Library Reference' class hierarchy at the bottom.
 " http://docs.python.org/library/exceptions.html
-if !exists("mojo_no_exception_highlight")
-  " builtin base exceptions (used mostly as base classes for other exceptions)
-  syn keyword mojoExceptions	BaseException Exception
-  syn keyword mojoExceptions	ArithmeticError BufferError LookupError
-  " builtin exceptions (actually raised)
-  syn keyword mojoExceptions	AssertionError AttributeError EOFError
-  syn keyword mojoExceptions	FloatingPointError GeneratorExit ImportError
-  syn keyword mojoExceptions	IndentationError IndexError KeyError
-  syn keyword mojoExceptions	KeyboardInterrupt MemoryError
-  syn keyword mojoExceptions	ModuleNotFoundError NameError
-  syn keyword mojoExceptions	NotImplementedError OSError OverflowError
-  syn keyword mojoExceptions	RecursionError ReferenceError RuntimeError
-  syn keyword mojoExceptions	StopAsyncIteration StopIteration SyntaxError
-  syn keyword mojoExceptions	SystemError SystemExit TabError TypeError
-  syn keyword mojoExceptions	UnboundLocalError UnicodeDecodeError
-  syn keyword mojoExceptions	UnicodeEncodeError UnicodeError
-  syn keyword mojoExceptions	UnicodeTranslateError ValueError
-  syn keyword mojoExceptions	ZeroDivisionError
-  " builtin exception aliases for OSError
-  syn keyword mojoExceptions	EnvironmentError IOError WindowsError
-  " builtin OS exceptions in Python 3
-  syn keyword mojoExceptions	BlockingIOError BrokenPipeError
-  syn keyword mojoExceptions	ChildProcessError ConnectionAbortedError
-  syn keyword mojoExceptions	ConnectionError ConnectionRefusedError
-  syn keyword mojoExceptions	ConnectionResetError FileExistsError
-  syn keyword mojoExceptions	FileNotFoundError InterruptedError
-  syn keyword mojoExceptions	IsADirectoryError NotADirectoryError
-  syn keyword mojoExceptions	PermissionError ProcessLookupError TimeoutError
-  " builtin warnings
-  syn keyword mojoExceptions	BytesWarning DeprecationWarning FutureWarning
-  syn keyword mojoExceptions	ImportWarning PendingDeprecationWarning
-  syn keyword mojoExceptions	ResourceWarning RuntimeWarning
-  syn keyword mojoExceptions	SyntaxWarning UnicodeWarning
-  syn keyword mojoExceptions	UserWarning Warning
-endif
+" builtin base exceptions (used mostly as base classes for other exceptions)
+syn keyword mojoExceptions	BaseException Exception
+syn keyword mojoExceptions	ArithmeticError BufferError LookupError
 
-if exists("mojo_space_error_highlight")
-  " trailing whitespace
-  syn match   mojoSpaceError	display excludenl "\s\+$"
-  " mixed tabs and spaces
-  syn match   mojoSpaceError	display " \+\t"
-  syn match   mojoSpaceError	display "\t\+ "
-endif
+" builtin exceptions (actually raised)
+syn keyword mojoExceptions	AssertionError AttributeError EOFError
+syn keyword mojoExceptions	FloatingPointError GeneratorExit ImportError
+syn keyword mojoExceptions	IndentationError IndexError KeyError
+syn keyword mojoExceptions	KeyboardInterrupt MemoryError
+syn keyword mojoExceptions	ModuleNotFoundError NameError
+syn keyword mojoExceptions	NotImplementedError OSError OverflowError
+syn keyword mojoExceptions	RecursionError ReferenceError RuntimeError
+syn keyword mojoExceptions	StopAsyncIteration StopIteration SyntaxError
+syn keyword mojoExceptions	SystemError SystemExit TabError TypeError
+syn keyword mojoExceptions	UnboundLocalError UnicodeDecodeError
+syn keyword mojoExceptions	UnicodeEncodeError UnicodeError
+syn keyword mojoExceptions	UnicodeTranslateError ValueError
+syn keyword mojoExceptions	ZeroDivisionError
+
+" builtin exception aliases for OSError
+syn keyword mojoExceptions	EnvironmentError IOError WindowsError
+
+" builtin OS exceptions in Python 3
+syn keyword mojoExceptions	BlockingIOError BrokenPipeError
+syn keyword mojoExceptions	ChildProcessError ConnectionAbortedError
+syn keyword mojoExceptions	ConnectionError ConnectionRefusedError
+syn keyword mojoExceptions	ConnectionResetError FileExistsError
+syn keyword mojoExceptions	FileNotFoundError InterruptedError
+syn keyword mojoExceptions	IsADirectoryError NotADirectoryError
+syn keyword mojoExceptions	PermissionError ProcessLookupError TimeoutError
+
+" builtin warnings
+syn keyword mojoExceptions	BytesWarning DeprecationWarning FutureWarning
+syn keyword mojoExceptions	ImportWarning PendingDeprecationWarning
+syn keyword mojoExceptions	ResourceWarning RuntimeWarning
+syn keyword mojoExceptions	SyntaxWarning UnicodeWarning
+syn keyword mojoExceptions	UserWarning Warning
+
+" trailing whitespace
+syn match   mojoSpaceError	display excludenl "\s\+$"
+" mixed tabs and spaces
+syn match   mojoSpaceError	display " \+\t"
+syn match   mojoSpaceError	display "\t\+ "
 
 " Do not spell doctests inside strings.
-" Notice that the end of a string, either ''', or """, will end the contained
+" Notice that the end of a string, will end the contained
 " doctest too.  Thus, we do *not* need to have it as an end pattern.
-if !exists("mojo_no_doctest_highlight")
-  if !exists("mojo_no_doctest_code_highlight")
-    syn region mojoDoctest
-	  \ start="^\s*>>>\s" end="^\s*$"
-	  \ contained contains=ALLBUT,mojoDoctest,mojoFunction,@Spell
-    syn region mojoDoctestValue
-	  \ start=+^\s*\%(>>>\s\|\.\.\.\s\|"""\|'''\)\@!\S\++ end="$"
-	  \ contained
-  else
-    syn region mojoDoctest
-	  \ start="^\s*>>>" end="^\s*$"
-	  \ contained contains=@NoSpell
-  endif
-endif
+syn region mojoDoctest
+  \ start="^\s*>>>\s" end="^\s*$"
+  \ contained contains=ALLBUT,mojoDoctest,mojoFunction,@Spell
+syn region mojoDoctestValue
+  \ start=+^\s*\%(>>>\s\|\.\.\.\s\|"""\|'''\)\@!\S\++ end="$"
+  \ contained
+syn region mojoDoctest
+  \ start="^\s*>>>" end="^\s*$"
+  \ contained contains=@NoSpell
 
 " Sync at the beginning of class, function, or method definition.
 syn sync match mojoSync grouphere NONE "^\%(def\|class\)\s\+\h\w*\s*[(:]"
@@ -292,27 +218,16 @@ hi def link mojoRawString		String
 hi def link mojoQuotes			String
 hi def link mojoTripleQuotes		mojoQuotes
 hi def link mojoEscape			Special
-if !exists("mojo_no_number_highlight")
-  hi def link mojoNumber		Number
-endif
-if !exists("mojo_no_builtin_highlight")
-  hi def link mojoBuiltin		Function
-  hi def link mojoType			Type
-endif
-if !exists("mojo_no_exception_highlight")
-  hi def link mojoExceptions		Structure
-endif
-if exists("mojo_space_error_highlight")
-  hi def link mojoSpaceError		Error
-endif
-if !exists("mojo_no_doctest_highlight")
-  hi def link mojoDoctest		Special
-  hi def link mojoDoctestValue	Define
-endif
+hi def link mojoNumber		Number
+hi def link mojoBuiltin		Function
+hi def link mojoType			Type
+hi def link mojoExceptions		Structure
+hi def link mojoSpaceError		Error
+hi def link mojoDoctest		Special
+hi def link mojoDoctestValue	Define
 
 let b:current_syntax = "mojo"
 
 let &cpo = s:cpo_save
 unlet s:cpo_save
 
-" vim:set sw=2 sts=2 ts=8 noet:
