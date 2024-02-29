@@ -1,8 +1,5 @@
 " Mojo syntax file for Vim
 
-" Include python syntax
-runtime syntax/python.vim
-
 " Quit when a syntax file was already loaded.
 if exists("b:current_syntax")
   finish
