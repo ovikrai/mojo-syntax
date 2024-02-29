@@ -17,7 +17,7 @@ syn keyword mojoStatement	False None True
 syn keyword mojoStatement	as assert break continue del global
 syn keyword mojoStatement	lambda nonlocal pass return with yield
 syn keyword mojoStatement	class def nextgroup=mojoFunction skipwhite
-syn keyword mojoStatement	struct fn nextgroup=mojoFunction skipwhite
+syn keyword mojoStatement	struct fn trait nextgroup=mojoFunction skipwhite
 syn keyword mojoStatement	alias var let
 syn keyword mojoConditional	elif else if
 syn keyword mojoRepeat		for while
