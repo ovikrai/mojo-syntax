@@ -1,4 +1,5 @@
 " Mojo syntax file for Vim
+" Based on: https://raw.githubusercontent.com/vim/vim/master/runtime/syntax/mojo.vim
 
 " Quit when a syntax file was already loaded.
 if exists("b:current_syntax")
@@ -19,6 +20,7 @@ syn keyword mojoStatement	lambda nonlocal pass return with yield
 syn keyword mojoStatement	class def nextgroup=mojoFunction skipwhite
 syn keyword mojoStatement	struct fn trait nextgroup=mojoFunction skipwhite
 syn keyword mojoStatement	alias var let
+syn keyword mojoStatement	inout owned borrowed 
 syn keyword mojoConditional	elif else if
 syn keyword mojoRepeat		for while
 syn keyword mojoOperator	and in is not or
@@ -61,7 +63,7 @@ syn match   mojoMatrixMultiply
 syn match   mojoFunction	"\h\w*" display contained
 
 syn match   mojoComment	"#.*$" contains=mojoTodo,@Spell
-syn keyword mojoTodo		FIXME NOTE NOTES TODO XXX contained
+syn keyword mojoTodo		FIXME NOTE NOTES TODO contained
 
 " Triple-quoted strings can contain doctests.
 syn region  mojoString matchgroup=mojoQuotes
@@ -81,6 +83,7 @@ syn match   mojoEscape	+\\[abfnrtv'"\\]+ contained
 syn match   mojoEscape	"\\\o\{1,3}" contained
 syn match   mojoEscape	"\\x\x\{2}" contained
 syn match   mojoEscape	"\%(\\u\x\{4}\|\\U\x\{8}\)" contained
+
 " Python allows case-insensitive Unicode IDs: http://www.unicode.org/charts/
 syn match   mojoEscape	"\\N{\a\+\%(\s\a\+\)*}" contained
 syn match   mojoEscape	"\\$"
