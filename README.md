@@ -1,7 +1,9 @@
-[Mojo](https://github.com/modularml/mojo) Syntax Highlighting for Vim
+##Mojo🔥 Language Syntax Highlighting for Vim
+
 
 How to install
 --------------
+Write this line in your vimrc:
 ```
 Plug 'ovikrai/mojo-syntax'
 ```

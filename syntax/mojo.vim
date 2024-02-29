@@ -25,7 +25,7 @@ syn keyword mojoConditional	elif else if
 syn keyword mojoRepeat		for while
 syn keyword mojoOperator	and in is not or
 syn keyword mojoException	except finally raise try
-syn keyword mojoInclude		from import
+syn keyword mojoInclude		from import self
 syn keyword mojoAsync		async await
 
 " Soft keywords
