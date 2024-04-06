@@ -20,13 +20,14 @@ syn keyword mojoStatement	lambda nonlocal pass return with yield
 syn keyword mojoStatement	class def nextgroup=mojoFunction skipwhite
 syn keyword mojoStatement	struct fn trait nextgroup=mojoFunction skipwhite
 syn keyword mojoStatement	alias var let
-syn keyword mojoStatement	inout owned borrowed 
+syn keyword mojoStatement	inout owned borrowed
 syn keyword mojoConditional	elif else if
 syn keyword mojoRepeat		for while
 syn keyword mojoOperator	and in is not or
 syn keyword mojoException	except finally raise try
 syn keyword mojoInclude		from import self
 syn keyword mojoAsync		async await
+syn keyword mojoModifier		raises capturing escaping
 
 " Soft keywords
 " These keywords do not mean anything unless used in the right context.
@@ -225,6 +226,7 @@ hi def link mojoExceptions		Structure
 hi def link mojoSpaceError		Error
 hi def link mojoDoctest		Special
 hi def link mojoDoctestValue	Define
+hi def link mojoModifier		Statement
 
 let b:current_syntax = "mojo"
 
