@@ -24,7 +24,7 @@ syn keyword mojoStatement	inout owned borrowed
 syn keyword mojoConditional	elif else if
 syn keyword mojoRepeat		for while
 syn keyword mojoOperator	and in is not or
-syn keyword mojoException	except finally raise try
+syn keyword mojoException	except finally raise try raises
 syn keyword mojoInclude		from import self
 syn keyword mojoAsync		async await
 
