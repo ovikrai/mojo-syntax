@@ -12,15 +12,15 @@ let s:cpo_save = &cpo
 set cpo&vim
 
 " These keywords are based on Python syntax highlight, and adds to it struct,
-" fn, alias, var, let
+" fn, alias, var, let, ref, mut, out, read, comptime, where
 "
 syn keyword mojoStatement	False None True
 syn keyword mojoStatement	as assert break continue del global
 syn keyword mojoStatement	lambda nonlocal pass return with yield
 syn keyword mojoStatement	class def nextgroup=mojoFunction skipwhite
 syn keyword mojoStatement	struct fn trait nextgroup=mojoFunction skipwhite
-syn keyword mojoStatement	alias var let
-syn keyword mojoStatement	inout owned borrowed
+syn keyword mojoStatement	alias var let comptime where
+syn keyword mojoStatement	inout owned borrowed ref mut out read
 syn keyword mojoConditional	elif else if
 syn keyword mojoRepeat		for while
 syn keyword mojoOperator	and in is not or
@@ -120,19 +120,28 @@ syn match   mojoNumber
 "
 " Built-in functions
 syn keyword mojoBuiltin	slice constrained debug_assert put_new_line print
-syn keyword mojoBuiltin	print_no_newline len range rebind element_type 
+syn keyword mojoBuiltin	print_no_newline len range rebind element_type
 syn keyword mojoBuiltin	ord chr atol isdigit index address string
+syn keyword mojoBuiltin	abs all any bin bool bytes callable dir divmod
+syn keyword mojoBuiltin	enumerate filter float format getattr globals hasattr
+syn keyword mojoBuiltin	hash hex id input int isinstance issubclass iter
+syn keyword mojoBuiltin	locals map max min next object oct open pow repr
+syn keyword mojoBuiltin	reversed round set setattr sorted staticmethod str
+syn keyword mojoBuiltin	sum super tuple type vars zip
 
 " Built-in types
 syn keyword mojoType		Byte ListLiteral CoroutineContext Coroutine DType
-syn keyword mojoType		dtype type invalid bool int8 si8 unit8 ui8 int16 
-syn keyword mojoType		si16 unit16 ui16 int32 si32 uint32 ui32 int64 
+syn keyword mojoType		dtype type invalid bool int8 si8 uint8 ui8 int16
+syn keyword mojoType		si16 uint16 ui16 int32 si32 uint32 ui32 int64
 syn keyword mojoType		si64 uint64 ui64 bfloat16 bf16 float16 f16 float32
-syn keyword mojoType		f32 float64 f64 Error FloatLiteral Int Attr SIMD 
+syn keyword mojoType		f32 float64 f64 Error FloatLiteral Int UInt Attr SIMD
 syn keyword mojoType		Int8 UInt8 Int16 UInt16 Int32 UInt32 Int64 UInt64
 syn keyword mojoType		Float16 Float32 Float64 element_type _65x13_type
-syn keyword mojoType		String StringLiteral StringRef Tuple AnyType
-syn keyword mojoType		NoneType None Lifetime
+syn keyword mojoType		String StringLiteral StringRef StringSlice Tuple AnyType
+syn keyword mojoType		NoneType None Lifetime Bool
+syn keyword mojoType		List Dict Set Optional Variant InlineArray
+syn keyword mojoType		Pointer UnsafePointer ArcPointer OwnedPointer
+syn keyword mojoType		Span PythonObject
 
 " avoid highlighting attributes as builtins
 syn match   mojoAttribute	/\.\h\w*/hs=s+1
